@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgk4tbdbl1abt"]
+
+[ext_resource type="PackedScene" uid="uid://drihibr2fmv7t" path="res://assets/LevelAndMechanics/Arrow_Side.gltf" id="1_255wr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_blnl6"]
+size = Vector3(1.85, 2, 0.35)
+
+[node name="ArrowSide" instance=ExtResource("1_255wr")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 1, 0.08)
+shape = SubResource("BoxShape3D_blnl6")

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://r5dnmo8hqocs"]
+
+[ext_resource type="PackedScene" uid="uid://ctltig3ai73eg" path="res://assets/LevelAndMechanics/Hazard_SpikeTrap.gltf" id="1_stp23"]
+[ext_resource type="Script" path="res://resources/scripts/hazard_spike.gd" id="2_gng3f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mo8ck"]
+size = Vector3(2, 0.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e07ux"]
+size = Vector3(1.5, 0.3, 1.5)
+
+[node name="HazardSpikes" instance=ExtResource("1_stp23")]
+collision_layer = 8
+script = ExtResource("2_gng3f")
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "SpikeTrap_Activate"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_mo8ck")
+
+[node name="Area3D" type="Area3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("BoxShape3D_e07ux")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

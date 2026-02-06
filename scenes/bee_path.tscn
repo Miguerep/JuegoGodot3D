@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://wnet2c336kvy"]
+
+[ext_resource type="Script" path="res://resources/scripts/bee_path.gd" id="1_8cewx"]
+[ext_resource type="PackedScene" uid="uid://ctakbnvew3n1b" path="res://scenes/bee.tscn" id="2_r7pn0"]
+
+[sub_resource type="Curve3D" id="Curve3D_hm8pb"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -19, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="Path3D" type="Path3D"]
+curve = SubResource("Curve3D_hm8pb")
+script = ExtResource("1_8cewx")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -19, 0, 0)
+
+[node name="Bee" parent="PathFollow3D" instance=ExtResource("2_r7pn0")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.8, 0)

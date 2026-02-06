@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0h2xi6hpli51"]
+
+[ext_resource type="PackedScene" uid="uid://8rwe7jd8c7a3" path="res://assets/Cubes/Cube_Default.gltf" id="1_gblmu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ri2hw"]
+resource_name = "Main"
+cull_mode = 2
+albedo_color = Color(0.426657, 0.426657, 0.426657, 1)
+metallic = 1.0
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f16uh"]
+resource_name = "Main_Dark"
+cull_mode = 2
+albedo_color = Color(0.273323, 0.273323, 0.273323, 1)
+metallic = 1.0
+roughness = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l68bq"]
+size = Vector3(2, 2, 2)
+
+[node name="Cube" instance=ExtResource("1_gblmu")]
+collision_layer = 8
+collision_mask = 3
+
+[node name="Cube_Default" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ri2hw")
+surface_material_override/1 = SubResource("StandardMaterial3D_f16uh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+shape = SubResource("BoxShape3D_l68bq")

@@ -1,0 +1,4 @@
+# Archivos específicos de Godot
+.godot/
+*.translation
+node_modules/

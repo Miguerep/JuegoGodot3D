@@ -1,0 +1,1746 @@
+[gd_scene load_steps=21 format=3 uid="uid://bq0fockr8ndsw"]
+
+[ext_resource type="PackedScene" uid="uid://mv50ix7vnf2h" path="res://scenes/gui.tscn" id="1_k824a"]
+[ext_resource type="Script" uid="uid://caw1dpnu4vf5q" path="res://resources/scripts/level.gd" id="1_njjj8"]
+[ext_resource type="PackedScene" uid="uid://b73ifhjk4ree4" path="res://scenes/environment.tscn" id="2_mchkp"]
+[ext_resource type="ArrayOccluder3D" uid="uid://boxdy8pwyd7nx" path="res://config/level.occ" id="2_sgljp"]
+[ext_resource type="PackedScene" uid="uid://daxrf0frp0733" path="res://scenes/camera.tscn" id="3_hmi5f"]
+[ext_resource type="PackedScene" uid="uid://bfkpgy1inw47a" path="res://scenes/player.tscn" id="3_hoceh"]
+[ext_resource type="AudioStream" uid="uid://c8kbukwetx5i4" path="res://resources/audio/Of Far Different Nature - EZDNB2 (CC-BY).ogg" id="3_i6682"]
+[ext_resource type="PackedScene" uid="uid://dtfk4r7b7ynou" path="res://scenes/tower.tscn" id="3_odi7m"]
+[ext_resource type="PackedScene" uid="uid://iywluk06su2k" path="res://assets/LevelAndMechanics/Fence_Middle.gltf" id="4_6gs43"]
+[ext_resource type="PackedScene" uid="uid://bp5pqwr5q6uek" path="res://scenes/tree.tscn" id="4_fmj31"]
+[ext_resource type="PackedScene" uid="uid://b0h2xi6hpli51" path="res://scenes/cube_metal.tscn" id="4_fsfjh"]
+[ext_resource type="PackedScene" uid="uid://bvofuxb2j5ftb" path="res://assets/LevelAndMechanics/Fence_Corner.gltf" id="5_a36q2"]
+[ext_resource type="PackedScene" uid="uid://cip1y8anyd387" path="res://assets/Nature/Bush_Fruit.gltf" id="5_kutpu"]
+[ext_resource type="PackedScene" uid="uid://b0wqfospt3gim" path="res://scenes/cube_wooden.tscn" id="7_r357c"]
+[ext_resource type="PackedScene" uid="uid://r5dnmo8hqocs" path="res://scenes/hazard_spikes.tscn" id="9_njjpw"]
+[ext_resource type="PackedScene" uid="uid://dmax7wysess8m" path="res://scenes/coin.tscn" id="10_151wi"]
+[ext_resource type="PackedScene" uid="uid://balkm4gwkahpi" path="res://scenes/enemy.tscn" id="10_yiuu1"]
+[ext_resource type="PackedScene" uid="uid://bgk4tbdbl1abt" path="res://scenes/arrow_side.tscn" id="12_wmph3"]
+[ext_resource type="PackedScene" uid="uid://cy8skmdfjx2x0" path="res://scenes/pipe.tscn" id="19_n135n"]
+[ext_resource type="PackedScene" uid="uid://wnet2c336kvy" path="res://scenes/bee_path.tscn" id="21_4jecs"]
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_njjj8")
+
+[node name="GUI" parent="." instance=ExtResource("1_k824a")]
+
+[node name="Config" type="Node" parent="."]
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="Config"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 12, -84)
+layers = 31
+size = Vector3(90, 30, 250)
+
+[node name="Sun" type="DirectionalLight3D" parent="Config"]
+transform = Transform3D(0.866025, 0.353553, 0.353554, 0, -0.707107, 0.707106, 0.5, -0.612372, -0.612373, 0, 20, 1)
+layers = 8
+light_color = Color(0.890196, 0.94902, 0.992157, 1)
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.4
+directional_shadow_split_2 = 0.6
+directional_shadow_split_3 = 0.8
+directional_shadow_max_distance = 180.0
+
+[node name="Camera" parent="Config" instance=ExtResource("3_hmi5f")]
+
+[node name="MusicBG" type="AudioStreamPlayer" parent="Config"]
+stream = ExtResource("3_i6682")
+volume_db = -22.4
+autoplay = true
+
+[node name="LevelDesign" type="Node" parent="."]
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="LevelDesign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -84)
+occluder = ExtResource("2_sgljp")
+bake_mask = 4294966280
+
+[node name="Environment" parent="LevelDesign" instance=ExtResource("2_mchkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -84)
+
+[node name="Tower" parent="LevelDesign" instance=ExtResource("3_odi7m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -179)
+
+[node name="Enemy" parent="LevelDesign/Tower" instance=ExtResource("10_yiuu1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.6, 2)
+
+[node name="ArrowSide" parent="LevelDesign" instance=ExtResource("12_wmph3")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8, 0, -4)
+
+[node name="Bush" type="Node" parent="LevelDesign"]
+
+[node name="Bush_1" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -16)
+
+[node name="Bush_2" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -40)
+
+[node name="Bush_3" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -80)
+
+[node name="Bush_4" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -104)
+
+[node name="Bush_5" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -120)
+
+[node name="Bush_6" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -152)
+
+[node name="Bush_7" parent="LevelDesign/Bush" instance=ExtResource("5_kutpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -175)
+
+[node name="Coin" type="Node" parent="LevelDesign"]
+
+[node name="Coin_1" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 4, -16)
+
+[node name="Coin_2" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4, -16)
+
+[node name="Coin_3" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 4, -16)
+
+[node name="Coin_4" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4, -16)
+
+[node name="Coin_5" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 4, -56)
+
+[node name="Coin_6" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4, -56)
+
+[node name="Coin_7" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4, -56)
+
+[node name="Coin_8" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 4, -56)
+
+[node name="Coin_9" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 4, -96)
+
+[node name="Coin_10" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4, -96)
+
+[node name="Coin_11" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, -96)
+
+[node name="Coin_12" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4, -96)
+
+[node name="Coin_13" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4, -144)
+
+[node name="Coin_14" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 4, -144)
+
+[node name="Coin_15" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, -144)
+
+[node name="Coin_16" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4, -144)
+
+[node name="Coin_17" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 6, -132)
+
+[node name="Coin_18" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 6, -132)
+
+[node name="Coin_19" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 6, -132)
+
+[node name="Coin_20" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -132)
+
+[node name="Coin_21" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6, -132)
+
+[node name="Coin_22" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 6, -132)
+
+[node name="Coin_23" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 6, -132)
+
+[node name="Coin_24" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -132)
+
+[node name="Coin_25" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 6, -132)
+
+[node name="Coin_26" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 6, -132)
+
+[node name="Coin_27" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, -132)
+
+[node name="Coin_28" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -132)
+
+[node name="Coin_29" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 6, -132)
+
+[node name="Coin_30" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 6, -132)
+
+[node name="Coin_31" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 6, -132)
+
+[node name="Coin_32" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, -16)
+
+[node name="Coin_33" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 7, -16)
+
+[node name="Coin_34" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 7, -16)
+
+[node name="Coin_35" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 7, -16)
+
+[node name="Coin_36" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 7, -56)
+
+[node name="Coin_37" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 7, -56)
+
+[node name="Coin_38" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7, -56)
+
+[node name="Coin_39" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 7, -56)
+
+[node name="Coin_40" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 7, -96)
+
+[node name="Coin_41" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 7, -96)
+
+[node name="Coin_42" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 7, -96)
+
+[node name="Coin_43" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 7, -96)
+
+[node name="Coin_44" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 7, -144)
+
+[node name="Coin_45" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 7, -144)
+
+[node name="Coin_46" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 7, -144)
+
+[node name="Coin_47" parent="LevelDesign/Coin" instance=ExtResource("10_151wi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7, -144)
+
+[node name="Cubes" type="Node" parent="LevelDesign"]
+
+[node name="Cube_1" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, -16)
+
+[node name="Cube_2" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1, -16)
+
+[node name="Cube_3" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, -16)
+
+[node name="Cube_4" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, -16)
+
+[node name="Cube_5" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -56)
+
+[node name="Cube_6" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -56)
+
+[node name="Cube_7" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, -56)
+
+[node name="Cube_8" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, -56)
+
+[node name="Cube_9" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, -96)
+
+[node name="Cube_10" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, -96)
+
+[node name="Cube_11" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, -96)
+
+[node name="Cube_12" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -96)
+
+[node name="Cube_13" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -144)
+
+[node name="Cube_14" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -144)
+
+[node name="Cube_15" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -144)
+
+[node name="Cube_16" parent="LevelDesign/Cubes" instance=ExtResource("4_fsfjh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -144)
+
+[node name="Cube_17" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, -16)
+
+[node name="Cube_18" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 7, -16)
+
+[node name="Cube_19" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 7, -16)
+
+[node name="Cube_20" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 7, -16)
+
+[node name="Cube_21" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 7, -56)
+
+[node name="Cube_22" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 7, -56)
+
+[node name="Cube_23" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7, -56)
+
+[node name="Cube_24" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 7, -56)
+
+[node name="Cube_25" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 7, -96)
+
+[node name="Cube_26" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 7, -96)
+
+[node name="Cube_27" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 7, -96)
+
+[node name="Cube_28" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 7, -96)
+
+[node name="Cube_29" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 7, -144)
+
+[node name="Cube_30" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 7, -144)
+
+[node name="Cube_31" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 7, -144)
+
+[node name="Cube_32" parent="LevelDesign/Cubes" instance=ExtResource("7_r357c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7, -144)
+
+[node name="Fences" type="Node" parent="LevelDesign"]
+
+[node name="Fence_1" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 32)
+
+[node name="Fence_2" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 30)
+
+[node name="Fence_3" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 28)
+
+[node name="Fence_4" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 26)
+
+[node name="Fence_5" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 24)
+
+[node name="Fence_6" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 22)
+
+[node name="Fence_7" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 20)
+
+[node name="Fence_8" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 18)
+
+[node name="Fence_9" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 16)
+
+[node name="Fence_10" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 14)
+
+[node name="Fence_11" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 12)
+
+[node name="Fence_12" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 10)
+
+[node name="Fence_13" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 8)
+
+[node name="Fence_14" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 6)
+
+[node name="Fence_15" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 4)
+
+[node name="Fence_16" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 2)
+
+[node name="Fence_17" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, 0)
+
+[node name="Fence_18" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -2)
+
+[node name="Fence_19" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -4)
+
+[node name="Fence_20" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -6)
+
+[node name="Fence_21" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -8)
+
+[node name="Fence_22" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -10)
+
+[node name="Fence_23" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -12)
+
+[node name="Fence_24" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -14)
+
+[node name="Fence_25" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -16)
+
+[node name="Fence_26" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -18)
+
+[node name="Fence_27" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -20)
+
+[node name="Fence_28" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -22)
+
+[node name="Fence_29" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -24)
+
+[node name="Fence_30" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -26)
+
+[node name="Fence_31" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -28)
+
+[node name="Fence_32" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -30)
+
+[node name="Fence_33" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -32)
+
+[node name="Fence_34" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -34)
+
+[node name="Fence_35" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -36)
+
+[node name="Fence_36" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -38)
+
+[node name="Fence_37" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -40)
+
+[node name="Fence_38" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -42)
+
+[node name="Fence_39" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -44)
+
+[node name="Fence_40" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -46)
+
+[node name="Fence_41" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -48)
+
+[node name="Fence_42" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -50)
+
+[node name="Fence_43" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -52)
+
+[node name="Fence_44" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -54)
+
+[node name="Fence_45" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -56)
+
+[node name="Fence_46" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -58)
+
+[node name="Fence_47" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -60)
+
+[node name="Fence_48" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -62)
+
+[node name="Fence_49" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -64)
+
+[node name="Fence_50" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -66)
+
+[node name="Fence_51" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -68)
+
+[node name="Fence_52" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -70)
+
+[node name="Fence_53" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -72)
+
+[node name="Fence_54" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -74)
+
+[node name="Fence_55" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -76)
+
+[node name="Fence_56" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -78)
+
+[node name="Fence_57" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -80)
+
+[node name="Fence_58" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -82)
+
+[node name="Fence_59" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -84)
+
+[node name="Fence_60" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -86)
+
+[node name="Fence_61" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -88)
+
+[node name="Fence_62" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -90)
+
+[node name="Fence_63" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -92)
+
+[node name="Fence_64" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -94)
+
+[node name="Fence_65" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -96)
+
+[node name="Fence_66" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -98)
+
+[node name="Fence_67" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -100)
+
+[node name="Fence_68" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -102)
+
+[node name="Fence_69" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -104)
+
+[node name="Fence_70" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -106)
+
+[node name="Fence_71" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -108)
+
+[node name="Fence_72" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -110)
+
+[node name="Fence_73" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -112)
+
+[node name="Fence_74" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -114)
+
+[node name="Fence_75" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -116)
+
+[node name="Fence_76" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -118)
+
+[node name="Fence_77" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -120)
+
+[node name="Fence_78" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -122)
+
+[node name="Fence_79" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -124)
+
+[node name="Fence_80" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -126)
+
+[node name="Fence_81" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -128)
+
+[node name="Fence_82" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -130)
+
+[node name="Fence_83" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -132)
+
+[node name="Fence_84" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -134)
+
+[node name="Fence_85" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -136)
+
+[node name="Fence_86" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -138)
+
+[node name="Fence_87" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -140)
+
+[node name="Fence_88" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -142)
+
+[node name="Fence_89" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -144)
+
+[node name="Fence_90" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -146)
+
+[node name="Fence_91" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -148)
+
+[node name="Fence_92" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -150)
+
+[node name="Fence_93" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -152)
+
+[node name="Fence_94" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -154)
+
+[node name="Fence_95" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -156)
+
+[node name="Fence_96" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -158)
+
+[node name="Fence_97" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -160)
+
+[node name="Fence_98" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -162)
+
+[node name="Fence_99" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -164)
+
+[node name="Fence_100" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -166)
+
+[node name="Fence_101" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -168)
+
+[node name="Fence_102" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -170)
+
+[node name="Fence_103" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -172)
+
+[node name="Fence_104" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -174)
+
+[node name="Fence_105" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -176)
+
+[node name="Fence_106" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -178)
+
+[node name="Fence_107" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -180)
+
+[node name="Fence_108" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -182)
+
+[node name="Fence_109" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 11, -184)
+
+[node name="Fence_110" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 32)
+
+[node name="Fence_111" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 30)
+
+[node name="Fence_112" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 28)
+
+[node name="Fence_113" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 26)
+
+[node name="Fence_114" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 24)
+
+[node name="Fence_115" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 22)
+
+[node name="Fence_116" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 20)
+
+[node name="Fence_117" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 18)
+
+[node name="Fence_118" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 16)
+
+[node name="Fence_119" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 14)
+
+[node name="Fence_120" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 12)
+
+[node name="Fence_121" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 10)
+
+[node name="Fence_122" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 8)
+
+[node name="Fence_123" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 6)
+
+[node name="Fence_124" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 4)
+
+[node name="Fence_125" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 2)
+
+[node name="Fence_126" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, 0)
+
+[node name="Fence_127" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -2)
+
+[node name="Fence_128" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -4)
+
+[node name="Fence_129" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -6)
+
+[node name="Fence_130" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -8)
+
+[node name="Fence_131" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -10)
+
+[node name="Fence_132" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -12)
+
+[node name="Fence_133" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -14)
+
+[node name="Fence_134" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -16)
+
+[node name="Fence_135" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -18)
+
+[node name="Fence_136" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -20)
+
+[node name="Fence_137" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -22)
+
+[node name="Fence_138" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -24)
+
+[node name="Fence_139" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -26)
+
+[node name="Fence_140" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -28)
+
+[node name="Fence_141" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -30)
+
+[node name="Fence_142" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -32)
+
+[node name="Fence_143" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -34)
+
+[node name="Fence_144" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -36)
+
+[node name="Fence_145" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -38)
+
+[node name="Fence_146" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -40)
+
+[node name="Fence_147" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -42)
+
+[node name="Fence_148" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -44)
+
+[node name="Fence_149" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -46)
+
+[node name="Fence_150" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -48)
+
+[node name="Fence_151" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -50)
+
+[node name="Fence_152" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -52)
+
+[node name="Fence_153" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -54)
+
+[node name="Fence_154" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -56)
+
+[node name="Fence_155" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -58)
+
+[node name="Fence_156" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -60)
+
+[node name="Fence_157" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -62)
+
+[node name="Fence_158" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -64)
+
+[node name="Fence_159" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -66)
+
+[node name="Fence_160" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -68)
+
+[node name="Fence_161" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -70)
+
+[node name="Fence_162" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -72)
+
+[node name="Fence_163" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -74)
+
+[node name="Fence_164" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -76)
+
+[node name="Fence_165" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -78)
+
+[node name="Fence_166" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -80)
+
+[node name="Fence_167" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -82)
+
+[node name="Fence_168" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -84)
+
+[node name="Fence_169" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -86)
+
+[node name="Fence_170" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -88)
+
+[node name="Fence_171" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -90)
+
+[node name="Fence_172" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -92)
+
+[node name="Fence_173" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -94)
+
+[node name="Fence_174" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -96)
+
+[node name="Fence_175" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -98)
+
+[node name="Fence_176" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -100)
+
+[node name="Fence_177" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -102)
+
+[node name="Fence_178" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -104)
+
+[node name="Fence_179" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -106)
+
+[node name="Fence_180" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -108)
+
+[node name="Fence_181" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -110)
+
+[node name="Fence_182" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -112)
+
+[node name="Fence_183" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -114)
+
+[node name="Fence_184" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -116)
+
+[node name="Fence_185" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -118)
+
+[node name="Fence_186" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -120)
+
+[node name="Fence_187" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -122)
+
+[node name="Fence_188" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -124)
+
+[node name="Fence_189" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -126)
+
+[node name="Fence_190" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -128)
+
+[node name="Fence_191" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -130)
+
+[node name="Fence_192" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -132)
+
+[node name="Fence_193" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -134)
+
+[node name="Fence_194" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -136)
+
+[node name="Fence_195" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -138)
+
+[node name="Fence_196" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -140)
+
+[node name="Fence_197" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -142)
+
+[node name="Fence_198" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -144)
+
+[node name="Fence_199" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -146)
+
+[node name="Fence_200" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -148)
+
+[node name="Fence_201" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -150)
+
+[node name="Fence_202" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -152)
+
+[node name="Fence_203" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -154)
+
+[node name="Fence_204" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -156)
+
+[node name="Fence_205" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -158)
+
+[node name="Fence_206" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -160)
+
+[node name="Fence_207" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -162)
+
+[node name="Fence_208" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -164)
+
+[node name="Fence_209" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -166)
+
+[node name="Fence_210" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -168)
+
+[node name="Fence_211" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -170)
+
+[node name="Fence_212" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -172)
+
+[node name="Fence_213" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -174)
+
+[node name="Fence_214" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -176)
+
+[node name="Fence_215" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -178)
+
+[node name="Fence_216" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -180)
+
+[node name="Fence_217" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -182)
+
+[node name="Fence_218" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21, 11, -184)
+
+[node name="Fence_219" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -19, 11, -186)
+
+[node name="Fence_220" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -17, 11, -186)
+
+[node name="Fence_221" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -15, 11, -186)
+
+[node name="Fence_222" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -13, 11, -186)
+
+[node name="Fence_223" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 11, -186)
+
+[node name="Fence_224" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -9, 11, -186)
+
+[node name="Fence_225" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 11, -186)
+
+[node name="Fence_226" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5, 11, -186)
+
+[node name="Fence_227" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3, 11, -186)
+
+[node name="Fence_228" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 11, -186)
+
+[node name="Fence_229" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 11, -186)
+
+[node name="Fence_230" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3, 11, -186)
+
+[node name="Fence_231" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 5, 11, -186)
+
+[node name="Fence_232" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7, 11, -186)
+
+[node name="Fence_233" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 11, -186)
+
+[node name="Fence_234" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 11, 11, -186)
+
+[node name="Fence_235" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 13, 11, -186)
+
+[node name="Fence_236" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 15, 11, -186)
+
+[node name="Fence_237" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 17, 11, -186)
+
+[node name="Fence_238" parent="LevelDesign/Fences" instance=ExtResource("4_6gs43")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19, 11, -186)
+
+[node name="Fence_Corner_1" parent="LevelDesign/Fences" instance=ExtResource("5_a36q2")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -21, 11, -186)
+
+[node name="Fence_Corner_2" parent="LevelDesign/Fences" instance=ExtResource("5_a36q2")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 21.1, 11, -186)
+
+[node name="Hazard" type="Node" parent="LevelDesign"]
+
+[node name="File_1" type="Node3D" parent="LevelDesign/Hazard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32)
+
+[node name="HazardSpikes_1" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0)
+
+[node name="HazardSpikes_2" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="HazardSpikes_3" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="HazardSpikes_4" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+
+[node name="HazardSpikes_5" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="HazardSpikes_6" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+
+[node name="HazardSpikes_7" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="HazardSpikes_8" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="HazardSpikes_9" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="HazardSpikes_10" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+
+[node name="HazardSpikes_11" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="HazardSpikes_12" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="HazardSpikes_13" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="HazardSpikes_14" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+
+[node name="HazardSpikes_15" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="HazardSpikes_16" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="HazardSpikes_17" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+
+[node name="HazardSpikes_18" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+
+[node name="HazardSpikes_19" parent="LevelDesign/Hazard/File_1" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0)
+
+[node name="File_2" type="Node3D" parent="LevelDesign/Hazard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -68)
+
+[node name="HazardSpikes_1" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0)
+
+[node name="HazardSpikes_2" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="HazardSpikes_3" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="HazardSpikes_4" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+
+[node name="HazardSpikes_5" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="HazardSpikes_6" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+
+[node name="HazardSpikes_7" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="HazardSpikes_8" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="HazardSpikes_9" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="HazardSpikes_10" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+
+[node name="HazardSpikes_11" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="HazardSpikes_12" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="HazardSpikes_13" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="HazardSpikes_14" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+
+[node name="HazardSpikes_15" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="HazardSpikes_16" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="HazardSpikes_17" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+
+[node name="HazardSpikes_18" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+
+[node name="HazardSpikes_19" parent="LevelDesign/Hazard/File_2" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0)
+
+[node name="File_3" type="Node3D" parent="LevelDesign/Hazard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -132)
+
+[node name="HazardSpikes_1" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0)
+
+[node name="HazardSpikes_2" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="HazardSpikes_3" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="HazardSpikes_4" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+
+[node name="HazardSpikes_5" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="HazardSpikes_6" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+
+[node name="HazardSpikes_7" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="HazardSpikes_8" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="HazardSpikes_9" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="HazardSpikes_10" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+
+[node name="HazardSpikes_11" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="HazardSpikes_12" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="HazardSpikes_13" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="HazardSpikes_14" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+
+[node name="HazardSpikes_15" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="HazardSpikes_16" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="HazardSpikes_17" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+
+[node name="HazardSpikes_18" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+
+[node name="HazardSpikes_19" parent="LevelDesign/Hazard/File_3" instance=ExtResource("9_njjpw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0)
+
+[node name="Pipes" type="Node" parent="LevelDesign"]
+
+[node name="Pipe_1" parent="LevelDesign/Pipes" instance=ExtResource("19_n135n")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -18, 4, -32)
+
+[node name="Pipe_2" parent="LevelDesign/Pipes" instance=ExtResource("19_n135n")]
+transform = Transform3D(4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 0, 3.82137e-15, -8.74228e-08, -1, 18, 4, -32)
+
+[node name="Pipe_3" parent="LevelDesign/Pipes" instance=ExtResource("19_n135n")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -18, 4, -68)
+
+[node name="Pipe_4" parent="LevelDesign/Pipes" instance=ExtResource("19_n135n")]
+transform = Transform3D(4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 0, 3.82137e-15, -8.74228e-08, -1, 18, 4, -68)
+
+[node name="Pipe_5" parent="LevelDesign/Pipes" instance=ExtResource("19_n135n")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -18, 4, -132)
+
+[node name="Pipe_6" parent="LevelDesign/Pipes" instance=ExtResource("19_n135n")]
+transform = Transform3D(4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 0, 3.82137e-15, -8.74228e-08, -1, 18, 4, -132)
+
+[node name="Trees" type="Node" parent="LevelDesign"]
+
+[node name="Tree_1" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, 12)
+
+[node name="Tree_2" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, 9)
+
+[node name="Tree_3" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, 6)
+
+[node name="Tree_4" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, 3)
+
+[node name="Tree_5" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, 0)
+
+[node name="Tree_6" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -3)
+
+[node name="Tree_7" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -6)
+
+[node name="Tree_8" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -9)
+
+[node name="Tree_9" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -12)
+
+[node name="Tree_10" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -15)
+
+[node name="Tree_11" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -18)
+
+[node name="Tree_12" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -21)
+
+[node name="Tree_13" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -24)
+
+[node name="Tree_14" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -27)
+
+[node name="Tree_15" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -30)
+
+[node name="Tree_16" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -33)
+
+[node name="Tree_17" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -36)
+
+[node name="Tree_18" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -39)
+
+[node name="Tree_19" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -42)
+
+[node name="Tree_20" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -45)
+
+[node name="Tree_21" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -48)
+
+[node name="Tree_22" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -51)
+
+[node name="Tree_23" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -54)
+
+[node name="Tree_24" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -57)
+
+[node name="Tree_25" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -60)
+
+[node name="Tree_26" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -63)
+
+[node name="Tree_27" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -66)
+
+[node name="Tree_28" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -69)
+
+[node name="Tree_29" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -72)
+
+[node name="Tree_30" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -75)
+
+[node name="Tree_31" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -78)
+
+[node name="Tree_32" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -81)
+
+[node name="Tree_33" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -84)
+
+[node name="Tree_34" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -87)
+
+[node name="Tree_35" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -90)
+
+[node name="Tree_36" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -93)
+
+[node name="Tree_37" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -96)
+
+[node name="Tree_38" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -99)
+
+[node name="Tree_39" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -102)
+
+[node name="Tree_40" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -105)
+
+[node name="Tree_41" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -108)
+
+[node name="Tree_42" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -111)
+
+[node name="Tree_43" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -114)
+
+[node name="Tree_44" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -117)
+
+[node name="Tree_45" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -120)
+
+[node name="Tree_46" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -123)
+
+[node name="Tree_47" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -126)
+
+[node name="Tree_48" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -129)
+
+[node name="Tree_49" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -131)
+
+[node name="Tree_50" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -134)
+
+[node name="Tree_51" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -137)
+
+[node name="Tree_52" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -140)
+
+[node name="Tree_53" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -143)
+
+[node name="Tree_54" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -146)
+
+[node name="Tree_55" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -149)
+
+[node name="Tree_56" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -152)
+
+[node name="Tree_57" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -155)
+
+[node name="Tree_58" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -158)
+
+[node name="Tree_59" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -161)
+
+[node name="Tree_60" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -164)
+
+[node name="Tree_61" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -167)
+
+[node name="Tree_62" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -170)
+
+[node name="Tree_63" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -173)
+
+[node name="Tree_64" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -176)
+
+[node name="Tree_65" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -179)
+
+[node name="Tree_66" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -182)
+
+[node name="Tree_67" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -185)
+
+[node name="Tree_68" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -188)
+
+[node name="Tree_69" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -191)
+
+[node name="Tree_70" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, -4.5, 11, -189.5)
+
+[node name="Tree_71" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, -1.5, 11, -187.5)
+
+[node name="Tree_72" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, 1.5, 11, -189.5)
+
+[node name="Tree_73" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, 4.5, 11, -187.5)
+
+[node name="Tree_74" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, -16.5, 11, -189.5)
+
+[node name="Tree_75" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, -13.5, 11, -187.5)
+
+[node name="Tree_76" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, -10.5, 11, -189.5)
+
+[node name="Tree_77" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, -7.5, 11, -187.5)
+
+[node name="Tree_78" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, 7.5, 11, -189.5)
+
+[node name="Tree_79" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, 10.5, 11, -187.5)
+
+[node name="Tree_80" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, 13.5, 11, -189.5)
+
+[node name="Tree_81" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-2.18557e-07, 0, -1, 0, 1, 0, 1, 0, -2.18557e-07, 16.5, 11, -187.5)
+
+[node name="Tree_82" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -191.391)
+
+[node name="Tree_83" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -188.391)
+
+[node name="Tree_84" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -185.391)
+
+[node name="Tree_85" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -182.391)
+
+[node name="Tree_86" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -179.391)
+
+[node name="Tree_87" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -176.391)
+
+[node name="Tree_88" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -173.391)
+
+[node name="Tree_89" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -170.391)
+
+[node name="Tree_90" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -167.391)
+
+[node name="Tree_91" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -164.391)
+
+[node name="Tree_92" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -161.391)
+
+[node name="Tree_93" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -158.391)
+
+[node name="Tree_94" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -155.391)
+
+[node name="Tree_95" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -152.391)
+
+[node name="Tree_96" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -149.391)
+
+[node name="Tree_97" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -146.391)
+
+[node name="Tree_98" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -143.391)
+
+[node name="Tree_99" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -140.391)
+
+[node name="Tree_100" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -137.391)
+
+[node name="Tree_101" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -134.391)
+
+[node name="Tree_102" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -131.391)
+
+[node name="Tree_103" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -128.391)
+
+[node name="Tree_104" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -125.391)
+
+[node name="Tree_105" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -122.391)
+
+[node name="Tree_106" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -119.391)
+
+[node name="Tree_107" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -116.391)
+
+[node name="Tree_108" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -113.391)
+
+[node name="Tree_109" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -110.391)
+
+[node name="Tree_110" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -107.391)
+
+[node name="Tree_111" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -104.391)
+
+[node name="Tree_112" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -101.391)
+
+[node name="Tree_113" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -98.3913)
+
+[node name="Tree_114" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -95.3913)
+
+[node name="Tree_115" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -92.3913)
+
+[node name="Tree_116" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -89.3913)
+
+[node name="Tree_117" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -86.3913)
+
+[node name="Tree_118" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -83.3913)
+
+[node name="Tree_119" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -80.3913)
+
+[node name="Tree_120" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -77.3913)
+
+[node name="Tree_121" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -74.3913)
+
+[node name="Tree_122" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -71.3913)
+
+[node name="Tree_123" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -68.3913)
+
+[node name="Tree_124" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -65.3913)
+
+[node name="Tree_125" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -62.3913)
+
+[node name="Tree_126" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -59.3913)
+
+[node name="Tree_127" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -56.3913)
+
+[node name="Tree_128" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -53.3913)
+
+[node name="Tree_129" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -50.3913)
+
+[node name="Tree_130" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -48.3913)
+
+[node name="Tree_131" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -45.3913)
+
+[node name="Tree_132" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -42.3913)
+
+[node name="Tree_133" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -39.3913)
+
+[node name="Tree_134" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -36.3913)
+
+[node name="Tree_135" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -33.3913)
+
+[node name="Tree_136" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -30.3913)
+
+[node name="Tree_137" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -27.3913)
+
+[node name="Tree_138" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -24.3913)
+
+[node name="Tree_139" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -21.3913)
+
+[node name="Tree_140" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -18.3913)
+
+[node name="Tree_141" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -15.3913)
+
+[node name="Tree_142" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -12.3913)
+
+[node name="Tree_143" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -9.39131)
+
+[node name="Tree_144" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -6.39131)
+
+[node name="Tree_145" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, -3.39131)
+
+[node name="Tree_146" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, -0.391312)
+
+[node name="Tree_147" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, 2.60869)
+
+[node name="Tree_148" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, 5.60869)
+
+[node name="Tree_149" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.029, 11, 8.60869)
+
+[node name="Tree_150" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 22.029, 11, 11.6087)
+
+[node name="Tree_151" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -8, 0, -24)
+
+[node name="Tree_152" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 12, 0, -40)
+
+[node name="Tree_153" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -12, 0, -56)
+
+[node name="Tree_154" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -80)
+
+[node name="Tree_155" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -14, 0, -104)
+
+[node name="Tree_156" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8, 0, -120)
+
+[node name="Tree_157" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -8, 0, -152)
+
+[node name="Tree_158" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -8, 0, -179)
+
+[node name="Tree_159" parent="LevelDesign/Trees" instance=ExtResource("4_fmj31")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8, 0, -179)
+
+[node name="Bee_Path_1" parent="." instance=ExtResource("21_4jecs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -32)
+
+[node name="Bee_Path_2" parent="." instance=ExtResource("21_4jecs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -68)
+
+[node name="Bee_Path_3" parent="." instance=ExtResource("21_4jecs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -132)
+
+[node name="Player" parent="." instance=ExtResource("3_hoceh")]

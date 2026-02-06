@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctakbnvew3n1b"]
+
+[ext_resource type="PackedScene" uid="uid://vlqs50qnaiix" path="res://assets/Enemies/Bee.gltf" id="1_y70ph"]
+[ext_resource type="Script" path="res://resources/scripts/bee.gd" id="2_83sar"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w552y"]
+size = Vector3(1.3, 1.5, 1.3)
+
+[node name="Bee" instance=ExtResource("1_y70ph")]
+collision_layer = 2
+input_ray_pickable = false
+monitorable = false
+script = ExtResource("2_83sar")
+
+[node name="Skeleton3D" parent="MonsterArmature" index="0"]
+bones/2/position = Vector3(0, 0.483194, 0)
+bones/4/rotation = Quaternion(0, 3.54715e-10, -0.00264005, 0.999997)
+bones/6/rotation = Quaternion(-0.0304421, -0.0756972, -0.371872, 0.924692)
+bones/8/rotation = Quaternion(-0.0304421, 0.0756972, 0.371872, 0.924692)
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "Bite_Front"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_w552y")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

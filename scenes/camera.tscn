@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://daxrf0frp0733"]
+
+[ext_resource type="Environment" uid="uid://81xfimx2s4yq" path="res://config/world_environment.tres" id="1_tiwc0"]
+[ext_resource type="CameraAttributesPractical" uid="uid://bk63b6w8u2mu0" path="res://config/camera_attributes.tres" id="2_ijelg"]
+[ext_resource type="Script" path="res://resources/scripts/camera.gd" id="3_8nthn"]
+
+[node name="Camera" type="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 9, 10)
+environment = ExtResource("1_tiwc0")
+attributes = ExtResource("2_ijelg")
+current = true
+far = 256.0
+script = ExtResource("3_8nthn")
