@@ -1,70 +1,62 @@
 extends CharacterBody3D
 class_name Player
 
+
 var can_move : bool = false
+var axis : Vector2
+var rot : Vector3
+var angle : float
+
 const SPEED = 12
-const GRAVITY = 60 # Aumentado porque se multiplica por delta
-const JUMP = 20
+const GRAVITY = 2
+const JUMP : int = 30
 
-func _physics_process(delta):
-	# Aplicar gravedad siempre que no esté en el suelo
-	if not is_on_floor():
-		velocity.y -= GRAVITY * delta
-	else:
-		# Pequeña fuerza hacia abajo para mantener contacto con el suelo
-		if velocity.y < 0:
-			velocity.y = -0.1
-
-	if can_move:
-		motion_ctrl()
-	else:
-		# Si no puede moverse, desacelerar gradualmente o frenar de golpe
-		velocity.x = 0
-		velocity.z = 0
-		move_and_slide()
+func _process(delta):
+	
+	
+	match can_move:
+		true:
+			motion_ctrl(delta)
 
 func _input(event):
-	# Solo saltar si puede moverse y está en el suelo
-	if can_move and is_on_floor() and event.is_action_pressed("ui_accept"):
+	if is_on_floor() and event.is_action_pressed("ui_accept"):
 		velocity.y = JUMP
 		$AudioJump.play()
 
 func get_axis() -> Vector2:
-	var input_axis = Vector2.ZERO
-	input_axis.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_axis.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	return input_axis.normalized()
+	axis.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	axis.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	return axis.normalized()
 
-func motion_ctrl() -> void:
-	var current_axis = get_axis()
+func motion_ctrl(delta) -> void:
+	'''MOVIMIENTO'''
+	velocity.x = get_axis().x * SPEED
+	velocity.y -= GRAVITY
+	velocity.z = get_axis().y * -SPEED # Quitamos el negativo si los controles se sienten invertidos
 	
-	# Movimiento
-	velocity.x = current_axis.x * SPEED
-	velocity.z = current_axis.y * -SPEED
-
-	# Rotación
-	if current_axis.length() > 0:
-		var target_angle = atan2(current_axis.x, -current_axis.y)
-		rotation.y = target_angle # Simplificado: asignación directa
-		
+	'''ROTACIÓN'''
+	if get_axis().x == 0 or not get_axis().y == 0:
+		angle = atan2(get_axis().x, get_axis().y)
+		rot = get_rotation() # Obtenemos rotación actual
+		rot.y = angle  # Asignamos nuevo ángulo
+		set_rotation(rot)# Aplicamos rotación (Punto 19 simplificado)
 	move_and_slide()
 
-	# --- GESTIÓN DE ANIMACIONES ---
-	if is_on_floor():
-		if current_axis.length() > 0:
-			$AnimationPlayer.play("Run")
-			$GPUParticles3D.emitting = true
-		else:
-			$AnimationPlayer.play("Idle")
-			$GPUParticles3D.emitting = false
-	else:
-		if velocity.y > 0:
-			$AnimationPlayer.play("Jump")
-			$GPUParticles3D.emitting = false
-		else:
-			# Opcional: Podrías añadir una animación de "Fall" (Caída)
-			pass
+	'''ANIMACIONES'''
+	match is_on_floor():
+		true:
+			if get_axis().x == 0 or not get_axis().y == 0:
+				$AnimationPlayer.play("Run")
+				$GPUParticles3D.emitting = true
+			else:
+				$AnimationPlayer.play("Idle")
+				$GPUParticles3D.emitting = false
+		false:
+			if velocity.y > 0:
+				$AnimationPlayer.play("Jump")
+				$GPUParticles3D.emitting = false
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "Wave":
-		can_move = true
+	match anim_name:
+		"Wave":
+			can_move = true

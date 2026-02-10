@@ -8,6 +8,7 @@ func _on_animation_player_started(anim_name):
 		"FadeOut": 
 			get_tree().paused = true
 			$AudioGameOver.play()
+
 func _on_animation_player_finished(anim_name):
 	match anim_name:
 		"FadeIn":
