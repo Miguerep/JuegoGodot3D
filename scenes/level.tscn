@@ -44,7 +44,8 @@ directional_shadow_split_2 = 0.6
 directional_shadow_split_3 = 0.8
 directional_shadow_max_distance = 180.0
 
-[node name="Camera" parent="Config" instance=ExtResource("3_hmi5f")]
+[node name="Camera" parent="Config" node_paths=PackedStringArray("player") instance=ExtResource("3_hmi5f")]
+player = NodePath("../../Player")
 
 [node name="MusicBG" type="AudioStreamPlayer" parent="Config"]
 stream = ExtResource("3_i6682")
@@ -1736,11 +1737,14 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8, 0, 
 
 [node name="Bee_Path_1" parent="." instance=ExtResource("21_4jecs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -32)
+speed = 5
 
 [node name="Bee_Path_2" parent="." instance=ExtResource("21_4jecs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -68)
+speed = 10
 
 [node name="Bee_Path_3" parent="." instance=ExtResource("21_4jecs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -132)
+speed = 15
 
 [node name="Player" parent="." instance=ExtResource("3_hoceh")]

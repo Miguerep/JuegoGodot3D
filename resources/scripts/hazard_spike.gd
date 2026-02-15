@@ -1,6 +1,5 @@
 extends StaticBody3D
 
-
 @onready var gui : CanvasLayer = get_tree().get_first_node_in_group("GUI")
 
 func _on_area_3d_body_entered(body):

@@ -1,4 +1,5 @@
 extends Area3D
+
 @onready var gui : CanvasLayer = get_tree().get_first_node_in_group("GUI")
 
 func _on_body_entered(body):
